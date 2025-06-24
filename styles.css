@@ -115,6 +115,10 @@ body {
     color: #3b82f6;
 }
 
+.spacer {
+    height: 1rem;
+}
+
 .hero-subtitle {
     font-size: 2.5rem;
     margin-bottom: 2.5rem;
@@ -127,7 +131,7 @@ body {
 .hero-buttons {
     display: flex;
     gap: 1.5rem;
-    margin-top: 1rem;
+    margin-top: 3rem;
 }
 
 .btn {

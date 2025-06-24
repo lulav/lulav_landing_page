@@ -311,7 +311,6 @@ class InterceptionVisualization {
                 size: 20,
                 color: '#3b82f6', // Blue for interceptors
                 id: interceptorId,
-                label: `INTERCEPTOR CLUSTER${interceptorId}`,
                 particles: this.generateFormationParticles(nextInterceptor.formation),
                 formationType: nextInterceptor.formation,
                 // Swarm intelligence properties
@@ -348,7 +347,6 @@ class InterceptionVisualization {
                         size: 20,
                         color: '#3b82f6',
                         id: this.interceptorCount,
-                        label: `EMERGENCY CLUSTER${this.interceptorCount}`,
                         particles: this.generateFormationParticles('line'), // Simple formation for speed
                         formationType: 'emergency',
                         targetDrone: drone,
@@ -717,36 +715,16 @@ class InterceptionVisualization {
         this.drones.forEach(drone => {
             if (!drone.isActive) return;
             
+            // Draw drone image
             this.ctx.save();
-            
-            // Draw patrol area (optional - for debugging)
-            if (false) { // Set to true if you want to see patrol areas
-                this.ctx.strokeStyle = 'rgba(239, 68, 68, 0.2)';
-                this.ctx.lineWidth = 1;
-                this.ctx.setLineDash([3, 3]);
-                this.ctx.beginPath();
-                this.ctx.arc(drone.x, drone.patrolCenterY, drone.patrolRadius, 0, Math.PI * 2);
-                this.ctx.stroke();
-                this.ctx.setLineDash([]);
-            }
-            
-            // Draw UAV image (no rotation)
             this.ctx.translate(drone.x, drone.y);
-            // No rotation applied
-            
+            this.ctx.rotate(drone.rotation);
             this.ctx.drawImage(
                 this.images.target,
                 -drone.size, -drone.size,
                 drone.size * 2, drone.size * 2
             );
-            
             this.ctx.restore();
-            
-            // Draw threat label (changed back from detection)
-            this.ctx.fillStyle = '#ef4444';
-            this.ctx.font = 'bold 10px Inter';
-            this.ctx.textAlign = 'center';
-            this.ctx.fillText('UAV THREAT', drone.x, drone.y + drone.size + 15);
         });
     }
     
@@ -779,12 +757,6 @@ class InterceptionVisualization {
                 
                 this.ctx.restore();
             });
-            
-            // Draw interceptor label
-            this.ctx.fillStyle = '#3b82f6';
-            this.ctx.font = 'bold 10px Inter';
-            this.ctx.textAlign = 'center';
-            this.ctx.fillText(swarm.label, swarm.x, swarm.y - 30);
             
             // Draw targeting line if in intercept mode
             if (swarm.interceptMode && swarm.targetDrone && swarm.targetDrone.isActive) {
