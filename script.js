@@ -680,10 +680,10 @@ class InterceptionVisualization {
         this.ctx.setLineDash([]);
         
         // Protection zone label
-        this.ctx.fillStyle = '#3b82f6';
-        this.ctx.font = 'bold 12px Inter';
-        this.ctx.textAlign = 'center';
-        this.ctx.fillText('PROTECTION ZONE', protectionZoneRight / 2, 20);
+        // this.ctx.fillStyle = '#3b82f6';
+        // this.ctx.font = 'bold 12px Inter';
+        // this.ctx.textAlign = 'center';
+        // this.ctx.fillText('PROTECTION ZONE', protectionZoneRight / 2, 20);
     }
     
     drawRedZone() {
@@ -704,11 +704,11 @@ class InterceptionVisualization {
         this.ctx.strokeRect(detectionZoneLeft, detectionZoneTop, detectionZoneRight - detectionZoneLeft, detectionZoneBottom - detectionZoneTop);
         this.ctx.setLineDash([]);
         
-        // Detection zone label
-        this.ctx.fillStyle = '#ef4444';
-        this.ctx.font = 'bold 12px Inter';
-        this.ctx.textAlign = 'center';
-        this.ctx.fillText('DETECTION ZONE', detectionZoneLeft + (detectionZoneRight - detectionZoneLeft) / 2, 20);
+        // // Detection zone label
+        // this.ctx.fillStyle = '#ef4444';
+        // this.ctx.font = 'bold 12px Inter';
+        // this.ctx.textAlign = 'center';
+        // this.ctx.fillText('DETECTION ZONE', detectionZoneLeft + (detectionZoneRight - detectionZoneLeft) / 2, 20);
     }
     
     drawDrones() {
