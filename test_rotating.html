@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Three.js OBJ Rotator — Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        :root {
+            color-scheme: light dark;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+            min-height: 100dvh;
+            display: grid;
+            place-items: center;
+            background:
+                radial-gradient(120% 120% at 10% 10%, rgba(255, 255, 255, .06), rgba(0, 0, 0, .2));
+        }
+
+        .card {
+            width: min(92vw, 560px);
+            padding: 16px;
+            border-radius: 16px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, .18), inset 0 0 0 1px rgba(255, 255, 255, .06);
+            background: rgba(0, 0, 0, .08);
+        }
+
+        h1 {
+            margin: 0 0 12px;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: .2px;
+        }
+
+        #three-left {
+            width: 100%;
+            height: 360px;
+            /* definite size so the canvas isn't 0×0 */
+            border-radius: 12px;
+            overflow: hidden;
+            background: transparent;
+            /* renderer is transparent by default in our module */
+        }
+
+        .hint {
+            margin-top: 10px;
+            font-size: 12px;
+            opacity: .8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>OBJ Rotator Test</h1>
+        <div id="three-left"></div>
+        <div class="hint">
+            If you don’t see the object, check the DevTools Console &amp; Network tabs.
+        </div>
+    </div>
+
+    <!-- Map bare imports to CDN URLs -->
+    <script type="importmap">
+    {
+    "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+    }
+    </script>
+
+
+    <script type="module">
+        import { initRotatingOBJ } from './rotating.js';
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const mount = document.getElementById('three-left');
+            if (!mount) return;
+
+            // Known-good model (threejs Walt Head OBJ + MTL + textures)
+            initRotatingOBJ(mount, {
+                // objUrl: 'https://threejs.org/examples/models/obj/walt/WaltHead.obj',
+                // mtlUrl: 'https://threejs.org/examples/models/obj/walt/WaltHead.mtl',
+                objUrl: './models/hornbill_micro.obj',     // <- your OBJ path
+                mtlUrl: './models/hornbill_micro.mtl',     // optional; omit
+                bgColor: null,
+                autoRotate: true,
+                rotationSpeed: 1.2,
+                targetSize: 140,
+                exposure: 1.0
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>

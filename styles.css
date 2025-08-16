@@ -23,7 +23,8 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: #1e3a8a; /* Elegant blue */
+    background: #1e3a8a;
+    /* Elegant blue */
     backdrop-filter: blur(10px);
     z-index: 1000;
     padding: 0.5rem 0;
@@ -93,14 +94,17 @@ body {
     max-width: 1200px;
     margin: 0;
     padding: 0 20px;
-    display: block; /* Changed from grid to block */
+    display: block;
+    /* Changed from grid to block */
     width: 100%;
 }
 
 .hero-content {
-    max-width: 600px; /* Limit content width */
+    max-width: 600px;
+    /* Limit content width */
     margin-top: 0;
-    margin-left: 0; /* Align to left instead of center */
+    margin-left: 0;
+    /* Align to left instead of center */
 }
 
 .hero-title {
@@ -198,15 +202,18 @@ body {
     display: flex;
     justify-content: center;
     margin-bottom: 1rem;
-    height: calc(100% - 60px); /* Account for title and status area */
+    height: calc(100% - 60px);
+    /* Account for title and status area */
 }
 
 #interceptionCanvas {
     width: 100%;
     height: 100%;
-    border: none; /* Remove border for seamless integration */
+    border: none;
+    /* Remove border for seamless integration */
     border-radius: 8px;
-    background: transparent; /* Transparent background */
+    background: transparent;
+    /* Transparent background */
 }
 
 .battle-status {
@@ -391,42 +398,42 @@ body {
     .hamburger {
         display: flex;
     }
-    
+
     .nav-menu {
         display: none;
     }
-    
+
     .hero-container {
         grid-template-columns: 1fr;
         text-align: center;
         gap: 2rem;
     }
-    
+
     .hero-title {
         font-size: 2.5rem;
     }
-    
+
     .hero-buttons {
         flex-direction: column;
         align-items: flex-start;
     }
-    
+
     .hero-visual {
         position: static;
         width: 100%;
         height: 500px;
         margin-top: 2rem;
     }
-    
+
     .features {
         grid-template-columns: 1fr;
     }
-    
+
     .footer-content {
         grid-template-columns: 1fr;
         text-align: center;
     }
-    
+
     .social-links {
         justify-content: center;
     }
@@ -436,27 +443,27 @@ body {
     .hero-title {
         font-size: 2rem;
     }
-    
+
     .hero-visual {
         height: 400px;
     }
-    
+
     .about-text h2 {
         font-size: 2rem;
     }
-    
+
     .contact-section h2 {
         font-size: 2rem;
     }
-    
+
     .visualization-widget {
         padding: 1rem;
     }
-    
+
     .visualization-widget h3 {
         font-size: 1rem;
     }
-    
+
     #interceptionCanvas {
         height: 600px;
     }
@@ -488,33 +495,48 @@ html {
 }
 
 @keyframes successPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-} 
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
 
 /* Mount area for the 3D widget on the left */
 .three-left {
-  width: 320px;        /* tweak as you like or use clamp() */
-  height: 240px;       /* tweak as you like */
-  margin-top: 1rem;
-  border-radius: 12px;
-  overflow: hidden;
-  /* Optional subtle frame */
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.06);
-  background: radial-gradient(120% 120% at 10% 10%, rgba(255,255,255,0.06), rgba(0,0,0,0.2));
+    width: 320px;
+    /* or clamp(...) */
+    height: 240px;
+    position: relative;
+    /* so overlays position correctly */
+    overflow: hidden;
+    border-radius: 12px;
+    margin-left: 100px;
+}
+
+@media (max-width: 800px) {
+    .three-left {
+        width: 100%;
+        height: 220px;
+    }
 }
 
 /* If your hero is a grid/flex, ensure the left column can accommodate the 3D box */
 .hero-content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 @media (max-width: 800px) {
-  .three-left {
-    width: 100%;
-    height: 220px;
-  }
+    .three-left {
+        width: 100%;
+        height: 220px;
+    }
 }

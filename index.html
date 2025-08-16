@@ -38,6 +38,7 @@
 
                 <!-- NEW: 3D rotating object -->
                 <div id="three-left" class="three-left"></div>
+
             </div>
 
             <div class="hero-visual">
@@ -126,23 +127,39 @@
     <!-- Your existing app script -->
     <script src="script.js"></script>
 
-    <!-- Load and run the STL-based rotator -->
+    <!-- Map bare imports to CDN URLs -->
+    <script type="importmap">
+    {
+    "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+    }
+    </script>
+
     <script type="module">
-        import { initRotatingSTL } from './rotating.js';
+        import { initRotatingOBJ } from './rotating.js';
 
         window.addEventListener('DOMContentLoaded', () => {
             const mount = document.getElementById('three-left');
-            if (mount) {
-                // point to your STL (binary or ASCII). Serve it over HTTP from the same origin.
-                initRotatingSTL(mount, {
-                    modelUrl: 'hornbill_micro.stl',   // e.g., /models/drone.stl
-                    autoRotate: true,
-                    rotationSpeed: 0.6,               // deg/sec
-                    background: 'transparent',        // or 0x0b1220 for a solid bg
-                });
-            }
+            if (!mount) return;
+
+            initRotatingOBJ(mount, {
+                // objUrl: 'https://threejs.org/examples/models/obj/walt/WaltHead.obj',
+                // mtlUrl: 'https://threejs.org/examples/models/obj/walt/WaltHead.mtl',
+                objUrl: './models/hornbill_micro.obj',     // <- your OBJ path
+                mtlUrl: './models/hornbill_micro.mtl',     // optional; omit if you don’t have one
+                // materialsBasePath: './models/', // set if textures in MTL are in sibling subfolders
+                bgColor: null,        // transparent background
+                autoRotate: true,
+                rotationSpeed: 1.0,   // radians/sec
+                targetSize: 140,
+                exposure: 1.0
+            });
         });
     </script>
+
+
 
 
 </body>

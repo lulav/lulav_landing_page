@@ -1,114 +1,120 @@
 // rotating.js
-// Uses the Three.js STL example pattern: https://threejs.org/examples/webgl_loader_stl.html
-// Exported as a function per your preference.
+// rotating.js
+import * as THREE from 'three';
+import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
-import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
-import { STLLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/STLLoader.js';
+function showOverlay(container, msg) {
+  const el = document.createElement('div');
+  el.style.cssText = `
+    position:absolute; inset:0; display:grid; place-items:center;
+    background:rgba(0,0,0,.6); color:#fff; font:600 14px/1.4 system-ui;
+    text-align:center; padding:16px; z-index:10;
+  `;
+  el.textContent = msg;
+  container.appendChild(el);
+}
 
-export function initRotatingSTL(container, {
-  modelUrl,
-  background = 'transparent',      // or a hex like 0x0b1220
-  color = 0x3399ff,
-  metalness = 0.6,
-  roughness = 0.25,
-  autoRotate = true,
-  rotationSpeed = 0.5,             // deg/sec if autoRotate
-  initialCamera = { x: 160, y: 120, z: 260 },
-} = {}) {
-  if (!container) throw new Error('Missing container element');
-  if (!modelUrl) throw new Error('You must pass modelUrl to initRotatingSTL');
+export function initRotatingOBJ(
+  container,
+  {
+    objUrl,
+    mtlUrl = null,
+    bgColor = null,        // null => transparent
+    autoRotate = true,
+    rotationSpeed = 1.2,   // rad/sec
+    targetSize = 140,
+    exposure = 1.0
+  } = {}
+) {
+  if (!container) throw new Error('Missing container');
+  if (!objUrl) throw new Error('Missing objUrl');
 
-  // Renderer
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: background === 'transparent' });
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  renderer.setPixelRatio(dpr);
+  // — Renderer —
+  const alpha = bgColor === null;
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.setSize(container.clientWidth, container.clientHeight, false);
-  if (background !== 'transparent') renderer.setClearColor(background, 1);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = exposure;
+  if (!alpha) renderer.setClearColor(bgColor, 1);
   container.appendChild(renderer.domElement);
 
-  // Scene & Camera
+  // — Scene & Camera —
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(
-    45,
-    container.clientWidth / container.clientHeight,
-    0.1,
-    2000
-  );
-  camera.position.set(initialCamera.x, initialCamera.y, initialCamera.z);
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
 
-  // Lights (like the example: hemi + dir for nice highlights)
-  const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 0.7);
-  hemi.position.set(0, 200, 0);
-  scene.add(hemi);
+  const camera = new THREE.PerspectiveCamera(35, container.clientWidth / container.clientHeight, 0.1, 5000);
+  camera.position.set(0, 0, targetSize * 2.2);
 
-  const dir = new THREE.DirectionalLight(0xffffff, 0.9);
-  dir.position.set(100, 200, 100);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.25));
+  const dir = new THREE.DirectionalLight(0xffffff, 1.0);
+  dir.position.set(150, 200, 100);
   scene.add(dir);
 
-  // Controls
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.dampingFactor = 0.08;
-  controls.target.set(0, 0, 0);
-  controls.autoRotate = autoRotate;
-  controls.autoRotateSpeed = rotationSpeed; // in deg/sec
-
-  // Ground plane (subtle) – optional
-  const plane = new THREE.Mesh(
-    new THREE.PlaneGeometry(2000, 2000),
-    new THREE.MeshPhongMaterial({ color: 0x111111, depthWrite: false })
+  // Fallback primitive so you see something immediately
+  let fallback = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(30, 1),
+    new THREE.MeshStandardMaterial({ metalness: 0.5, roughness: 0.35 })
   );
-  plane.rotation.x = -Math.PI / 2;
-  plane.position.y = -0.01;
-  plane.receiveShadow = false;
-  plane.visible = false; // turn on if you want a ground
-  scene.add(plane);
+  scene.add(fallback);
 
-  // Load STL
-  const loader = new STLLoader();
-  let mesh = null;
+  // — Loaders —
+  const objLoader = new OBJLoader();
+  const mtlLoader = new MTLLoader();
 
-  loader.load(
-    modelUrl,
-    (geometry) => {
-      // Normalize size & center
-      geometry.computeBoundingBox();
-      const bb = geometry.boundingBox;
-      const size = new THREE.Vector3().subVectors(bb.max, bb.min);
-      const center = new THREE.Vector3().addVectors(bb.min, bb.max).multiplyScalar(0.5);
+  let model = null;
 
-      geometry.translate(-center.x, -center.y, -center.z);
+  function addAndFit(root) {
+    const box = new THREE.Box3().setFromObject(root);
+    const size = new THREE.Vector3(); box.getSize(size);
+    const center = new THREE.Vector3(); box.getCenter(center);
 
-      const maxDim = Math.max(size.x, size.y, size.z) || 1;
-      const scale = 100 / maxDim; // fit roughly into view
-      geometry.scale(scale, scale, scale);
+    root.position.sub(center);                    // center at origin
+    const scale = (targetSize / Math.max(size.x, size.y, size.z || 1));
+    root.scale.setScalar(scale);
 
-      const material = new THREE.MeshStandardMaterial({
-        color,
-        metalness,
-        roughness,
-      });
+    scene.add(root);
+    model = root;
+  }
 
-      mesh = new THREE.Mesh(geometry, material);
-      mesh.castShadow = false;
-      mesh.receiveShadow = false;
-      scene.add(mesh);
+  function loadOBJ() {
+    objLoader.load(
+      objUrl,
+      (obj) => {
+        if (fallback) { scene.remove(fallback); fallback.geometry.dispose(); fallback = null; }
+        obj.traverse((o) => {
+          if (o.isMesh && !o.material) {
+            o.material = new THREE.MeshStandardMaterial({ color: 0x8899aa, metalness: 0.1, roughness: 0.7 });
+          }
+        });
+        addAndFit(obj);
+      },
+      undefined,
+      (err) => {
+        console.error('[rotating] OBJ load error:', err);
+        showOverlay(container, 'OBJ failed to load.\nOpen DevTools → Console/Network.');
+      }
+    );
+  }
 
-      // Frame the object
-      controls.target.set(0, 0, 0);
-      controls.update();
-    },
-    undefined,
-    (err) => {
-      console.error('[rotating.js] STL load error:', err);
-    }
-  );
+  if (mtlUrl) {
+    mtlLoader.load(
+      mtlUrl,
+      (mtl) => { mtl.preload(); objLoader.setMaterials(mtl); loadOBJ(); },
+      undefined,
+      (err) => { console.warn('[rotating] MTL load failed, continuing without:', err); loadOBJ(); }
+    );
+  } else {
+    loadOBJ();
+  }
 
-  // Resize (use ResizeObserver for container-based layouts)
+  // — Resize —
   const onResize = () => {
-    const w = container.clientWidth;
-    const h = container.clientHeight;
+    const w = container.clientWidth, h = container.clientHeight;
     if (!w || !h) return;
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
@@ -118,32 +124,42 @@ export function initRotatingSTL(container, {
   ro.observe(container);
   window.addEventListener('orientationchange', onResize);
 
-  // Animate
-  let rafId = 0;
+  // — Animate —
+  let raf = 0;
   const clock = new THREE.Clock();
-
   const animate = () => {
-    rafId = requestAnimationFrame(animate);
+    raf = requestAnimationFrame(animate);
     const dt = clock.getDelta();
-
-    // If you prefer manual rotation instead of controls.autoRotate:
-    // if (mesh && autoRotate) mesh.rotation.y += dt * rotationSpeed * (Math.PI / 180);
-
-    controls.update();
+    if (autoRotate && model) model.rotation.y += rotationSpeed * dt;
+    else if (fallback) {
+      fallback.rotation.y += rotationSpeed * dt;
+      fallback.rotation.x += (rotationSpeed * 0.5) * dt;
+    }
     renderer.render(scene, camera);
   };
   animate();
 
-  // Cleanup
+  // — Cleanup —
   function destroy() {
-    cancelAnimationFrame(rafId);
+    cancelAnimationFrame(raf);
     ro.disconnect();
     window.removeEventListener('orientationchange', onResize);
-    controls.dispose();
+    if (model) model.traverse((o) => {
+      if (o.isMesh) {
+        o.geometry?.dispose?.();
+        if (o.material?.isMaterial) {
+          if (o.material.map) o.material.map.dispose();
+          o.material.dispose?.();
+        } else if (Array.isArray(o.material)) {
+          o.material.forEach((m) => { if (m?.map) m.map.dispose(); m?.dispose?.(); });
+        }
+      }
+    });
+    if (fallback) { fallback.geometry.dispose(); fallback = null; }
+    pmrem.dispose?.();
     renderer.dispose();
-    if (mesh) mesh.geometry.dispose();
     container.innerHTML = '';
   }
 
-  return { destroy, scene, camera, renderer, controls };
+  return { destroy, scene, camera, renderer };
 }
