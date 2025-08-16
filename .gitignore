@@ -23,7 +23,7 @@ Thumbs.db
 build/
 tex_build/
 
-models/
-*.stp
+# models/
+# *.stp
 *.stl
-*.gltf
+# *.gltf
