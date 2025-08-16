@@ -492,3 +492,29 @@ html {
     50% { transform: scale(1.05); }
     100% { transform: scale(1); }
 } 
+
+/* Mount area for the 3D widget on the left */
+.three-left {
+  width: 320px;        /* tweak as you like or use clamp() */
+  height: 240px;       /* tweak as you like */
+  margin-top: 1rem;
+  border-radius: 12px;
+  overflow: hidden;
+  /* Optional subtle frame */
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.06);
+  background: radial-gradient(120% 120% at 10% 10%, rgba(255,255,255,0.06), rgba(0,0,0,0.2));
+}
+
+/* If your hero is a grid/flex, ensure the left column can accommodate the 3D box */
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+@media (max-width: 800px) {
+  .three-left {
+    width: 100%;
+    height: 220px;
+  }
+}

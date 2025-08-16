@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
+
 <body>
     <nav class="navbar">
         <div class="nav-container">
@@ -33,11 +35,11 @@
                 <h1 class="hero-title">Lulav</h1>
                 <h1 class="highlight">Micro Defence Systems</h1>
                 <div class="spacer"></div>
-                <!-- <div class="hero-buttons">
-                    <button class="btn btn-primary" onclick="scrollToSection('about')">Learn More</button>
-                    <button class="btn btn-secondary" onclick="scrollToSection('contact')">Get in Touch</button>
-                </div> -->
+
+                <!-- NEW: 3D rotating object -->
+                <div id="three-left" class="three-left"></div>
             </div>
+
             <div class="hero-visual">
                 <div class="visualization-widget">
                     <h3>SWARM C-UAS</h3>
@@ -116,11 +118,33 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 LULAV SPACE LTD. All Rights Reserved.</p>
+                <p>&copy; 2025 LULAV SPACE LTD. All RIGHTS RESERVED.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Your existing app script -->
     <script src="script.js"></script>
+
+    <!-- Load and run the STL-based rotator -->
+    <script type="module">
+        import { initRotatingSTL } from './rotating.js';
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const mount = document.getElementById('three-left');
+            if (mount) {
+                // point to your STL (binary or ASCII). Serve it over HTTP from the same origin.
+                initRotatingSTL(mount, {
+                    modelUrl: 'hornbill_micro.stl',   // e.g., /models/drone.stl
+                    autoRotate: true,
+                    rotationSpeed: 0.6,               // deg/sec
+                    background: 'transparent',        // or 0x0b1220 for a solid bg
+                });
+            }
+        });
+    </script>
+
+
 </body>
-</html> 
+
+</html>
