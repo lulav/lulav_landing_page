@@ -1,6 +1,6 @@
 // Typewriter effect for hero title
 function typeWriter() {
-    const text = "Lulav: Micro CUAS Systems"; // Updated text
+    const text = "Lulav: Micro Defence Systems"; // Updated CUAV to Defence
     const typewriterElement = document.getElementById('typewriter-text');
     const cursor = document.querySelector('.cursor');
     
@@ -1175,9 +1175,9 @@ function initOBJViewer() {
                         scene.add(object);
                         console.log('Object added to scene. Scene children:', scene.children.length);
                         
-                        // Position camera much closer to the object (2x zoom in)
+                        // Position camera zoomed out much more
                         const maxSize = Math.max(size.x, size.y, size.z);
-                        const cameraDistance = maxSize * 0.35; // 2x closer - reduced from 0.7 to 0.35
+                        const cameraDistance = maxSize * 0.6; // Zoomed out more (increased from 0.4375)
                         camera.position.set(cameraDistance, cameraDistance, cameraDistance);
                         camera.lookAt(0, 0, 0);
                         console.log('Camera positioned at much closer distance:', cameraDistance);
@@ -1262,7 +1262,7 @@ function initOBJViewer() {
         loadingGroup.receiveShadow = true;
         scene.add(loadingGroup);
         
-        camera.position.set(1.5, 1.5, 1.5); // Even closer initial position
+        camera.position.set(2.5, 2.5, 2.5); // Zoomed out much more for better view
         camera.lookAt(0, 0, 0);
         
         console.log('Starting animation...');

@@ -36,12 +36,13 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(15,26,48,0.7); /* Glassy */
-    backdrop-filter: blur(18px) saturate(180%);
+    background: #1a1a1a !important; /* Force terminal background always */
+    backdrop-filter: none; /* Remove blur effects */
     z-index: 1000;
     padding: 0.5rem 0;
-    transition: all 0.3s ease;
-    border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+    transition: none; /* Remove transitions that might cause color changes */
+    border-bottom: 2px solid #333 !important; /* Force terminal border always */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8); /* Terminal depth shadow */
 }
 
 .nav-container {
@@ -108,7 +109,7 @@ body {
     min-height: 100vh;
     display: flex;
     align-items: flex-start;
-    background: linear-gradient(135deg, #0f1629 0%, #081c52 50%, #071629 100%);
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #000000 100%); /* Terminal black/gray gradient */
     color: white;
     padding-top: 200px;
     position: relative;
@@ -125,11 +126,13 @@ body {
 .hero-content {
     max-width: 600px; /* Limit content width */
     margin-top: 0;
-    margin-left: 0; /* Align to left instead of center */
+    margin-left: auto; /* Center horizontally */
+    margin-right: auto; /* Center horizontally */
+    text-align: center; /* Center text alignment */
 }
 
 .hero-title {
-    font-size: clamp(0.4rem, 2.5vw, 1.5rem); /* Even smaller range to fit on one line */
+    font-size: clamp(0.541rem, 3.38vw, 2.028rem); /* Increased by 1.3x */
     font-weight: 700;
     margin-bottom: 1.25rem;
     line-height: 1.1;
@@ -139,16 +142,27 @@ body {
     font-family: 'Courier New', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
     background: #1a1a1a;
     color: #00ff00;
-    padding: 20px 30px;
+    padding: 75px 150px; /* Tripled padding (25px→75px, 50px→150px) */
     border-radius: 8px;
     box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
     border: 1px solid #333;
     text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
     position: relative;
     overflow: hidden;
-    min-height: 80px;
+    min-width: 1500px; /* Tripled min-width for x3 size */
+    width: fit-content; /* Auto-adjust width to content */
+    min-height: 240px; /* Tripled min-height (80px→240px) */
     display: flex;
+    margin: 0 auto; /* Center the box */
     align-items: center;
+}
+
+.hero-logo {
+    height: 3rem; /* Adjust logo size to fit with text */
+    width: auto;
+    margin-right: 1rem;
+    vertical-align: middle;
+    filter: brightness(0) saturate(100%) invert(47%) sepia(96%) saturate(4456%) hue-rotate(92deg) brightness(98%) contrast(107%); /* Make logo green to match terminal theme */
 }
 
 .terminal-prompt {
@@ -181,6 +195,14 @@ body {
     height: 1rem;
 }
 
+.widgets-container {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
 .hero-subtitle {
     font-size: 1.5rem;
     margin-bottom: 2.5rem;
@@ -194,6 +216,7 @@ body {
     display: flex;
     gap: 1.5rem;
     margin-top: 2rem;
+    justify-content: center; /* Center the contact button */
 }
 
 .btn {
@@ -234,16 +257,16 @@ body {
     position: absolute;
     bottom: 100px;
     right: 20px;
-    width: 1200px;
-    height: 1000px;
+    width: 900px; /* Reduced by 0.75x from 1200px */
+    height: 750px; /* Reduced by 0.75x from 1000px */
 }
 
 .visualization-widget {
-    background: transparent;
-    border-radius: 16px;
+    background: #1a1a1a; /* Terminal black background */
+    border-radius: 8px;
     padding: 1rem;
-    border: none;
-    box-shadow: none;
+    border: 2px solid #333; /* Terminal border */
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2); /* Terminal green glow */
     width: 100%;
     height: 100%;
 }
@@ -252,10 +275,12 @@ body {
     text-align: center;
     margin-bottom: 1rem;
     font-size: 1.2rem;
-    color: #60a5fa;
+    color: #00ff00; /* Terminal green text */
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
+    font-family: 'Courier New', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace; /* Terminal font */
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.8); /* Terminal text glow */
 }
 
 .canvas-container {
@@ -268,16 +293,19 @@ body {
 #interceptionCanvas {
     width: 100%;
     height: 100%;
-    border: none; /* Remove border for seamless integration */
-    border-radius: 8px;
-    background: transparent; /* Transparent background */
+    border: 1px solid #444; /* Terminal inner border */
+    border-radius: 4px;
+    background: #000000; /* Terminal black canvas background */
+    box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.1); /* Inner terminal glow */
 }
 
 .battle-status {
     text-align: center;
     font-size: 0.9rem;
-    color: #3b82f6;
+    color: #00ff00; /* Terminal green text */
     font-weight: 500;
+    font-family: 'Courier New', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace; /* Terminal font */
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.6); /* Terminal text glow */
     height: 20px;
 }
 
@@ -391,7 +419,7 @@ body {
 
 /* Footer */
 .footer {
-    background: #0f172a;
+    background: #1a1a1a; /* Terminal dark background */
     color: white;
     padding: 3rem 0 1rem;
 }
@@ -467,8 +495,15 @@ body {
     }
     
     .hero-title {
-        font-size: 0.6rem; /* Smaller to fit on one line */
-        padding: 15px 20px; /* Smaller padding on mobile */
+        font-size: 0.811rem; /* Increased by 1.3x */
+        padding: 15px 25px; /* Slightly more horizontal padding for mobile */
+        min-width: auto; /* Reset min-width for mobile */
+        width: auto; /* Reset width for mobile */
+    }
+    
+    .hero-logo {
+        height: 1.5rem; /* Smaller logo on mobile */
+        margin-right: 0.5rem;
     }
     
     .hero-buttons {
@@ -476,10 +511,16 @@ body {
         align-items: flex-start;
     }
     
+    .widgets-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
     .hero-visual {
         position: static;
         width: 100%;
-        height: 500px;
+        height: 375px; /* Reduced by 0.75x from 500px */
         margin-top: 2rem;
     }
     
@@ -503,7 +544,7 @@ body {
     }
     
     .hero-visual {
-        height: 400px;
+        height: 300px; /* Reduced by 0.75x from 400px */
     }
     
     .about-text h2 {
@@ -531,7 +572,7 @@ body {
     .hero-visual {
         position: static;
         width: 100%;
-        height: 600px;
+        height: 450px; /* Reduced by 0.75x from 600px */
         margin-top: 3rem;
     }
 }
@@ -561,24 +602,26 @@ html {
 /* OBJ Viewer */
 #obj-viewer-wrapper {
     margin-top: 2rem;
-    background: rgba(148,163,184,0.06);
-    border: 1px solid rgba(59,130,246,0.25);
-    border-radius: 12px;
-    padding: 1rem 1rem 1.5rem;
-    max-width: 600px;
+    background: #1a1a1a; /* Terminal black background */
+    border: 2px solid #333; /* Terminal border */
+    border-radius: 8px;
+    padding: 1rem 1rem 2rem; /* Reduced padding to match animation widget */
+    max-width: 900px; /* Match animation widget width */
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2); /* Terminal green glow */
 }
 .obj-viewer-title {
-    font-size: clamp(0.3rem, 2vw, 1rem);
+    font-size: 1.2rem; /* Match animation widget title size */
     letter-spacing: 1px;
     font-weight: 600;
-    margin-bottom: .75rem;
+    margin-bottom: 1rem; /* Match animation widget margin */
     text-transform: uppercase;
+    text-align: center; /* Match animation widget alignment */
     
     /* Linux Terminal Styling - same as hero-title */
     font-family: 'Courier New', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
     background: #1a1a1a;
     color: #00ff00;
-    padding: 15px 20px;
+    padding: 15px 20px; /* Reduced padding to match animation widget style */
     border-radius: 8px;
     box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
     border: 1px solid #333;
@@ -588,11 +631,14 @@ html {
 #obj-viewer {
     position: relative;
     width: 100%;
-    height: 340px;
-    border-radius: 8px;
+    height: 750px; /* Match animation widget height */
+    border-radius: 4px;
     overflow: hidden;
-    background: radial-gradient(circle at 35% 30%, #1e3a8a, #0b1323 70%);
-    box-shadow: 0 6px 18px -4px rgba(0,0,0,0.4), 0 2px 4px -2px rgba(255,255,255,0.05) inset;
+    background: #000000; /* Pure terminal black background */
+    border: 1px solid #444; /* Terminal inner border */
+    box-shadow: 
+        inset 0 0 10px rgba(0, 255, 0, 0.1), /* Inner green glow */
+        0 2px 8px rgba(0, 0, 0, 0.8); /* Terminal depth shadow */
 }
 #obj-viewer canvas { display: block; outline: none; }
 .obj-loading {
@@ -601,12 +647,13 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #93c5fd;
+    color: #00ff00; /* Terminal green text */
     font-size: .9rem;
     font-weight: 500;
-    background: linear-gradient(135deg, rgba(15,22,41,0.9), rgba(8,28,82,0.7));
-    backdrop-filter: blur(4px);
+    font-family: 'Courier New', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace; /* Terminal font */
+    background: #000000; /* Terminal black background */
     animation: pulseFade 1.8s ease-in-out infinite;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.8); /* Terminal text glow */
 }
 @keyframes pulseFade {
     0%,100% { opacity: .9; }
@@ -615,12 +662,12 @@ html {
 
 @media (max-width: 768px) {
     #obj-viewer-wrapper { max-width: 100%; }
-    #obj-viewer { height: 260px; }
+    #obj-viewer { height: 375px; } /* Match mobile animation height */
 }
 
 /* Capabilities Section */
 .capabilities-section {
-    background: linear-gradient(180deg,#050b14,#081c33 80%,#0b172b);
+    background: linear-gradient(180deg, #000000, #1a1a1a 80%, #0a0a0a); /* Terminal gradient */
     padding: 7rem 0 6rem;
     position: relative;
     overflow: hidden;
@@ -629,11 +676,11 @@ html {
     content: '';
     position: absolute;
     width: 600px; height: 600px;
-    background: radial-gradient(circle at center, rgba(56,189,248,0.08), rgba(0,0,0,0));
+    background: radial-gradient(circle at center, rgba(0,255,0,0.08), rgba(0,0,0,0)); /* Terminal green glow */
     top: -200px; left: -150px;
     filter: blur(20px);
 }
-.capabilities-section:after { top: auto; left: auto; bottom: -250px; right: -200px; background: radial-gradient(circle at center, rgba(59,130,246,0.12), rgba(0,0,0,0)); }
+.capabilities-section:after { top: auto; left: auto; bottom: -250px; right: -200px; background: radial-gradient(circle at center, rgba(0,255,0,0.12), rgba(0,0,0,0)); } /* Terminal green glow */
 .capabilities-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 .capabilities-heading { text-align: center; max-width: 720px; margin: 0 auto 4rem; }
 .capabilities-heading h2 { font-size: clamp(2.2rem,4.5vw,3.2rem); color: #fff; margin-bottom: 1rem; letter-spacing: -1px; }

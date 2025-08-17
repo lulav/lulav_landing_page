@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lulav CUAS: Micro Defence System</title>
-    <link rel="stylesheet" href="css/styles.css?v=7">
+    <title>Lulav: Micro Defence Systems</title>
+    <link rel="stylesheet" href="css/styles.css?v=21">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
 </head>
 <body>
     <nav class="navbar">
@@ -31,22 +31,26 @@
                     <span class="cursor">_</span>
                 </h1>
                 <div class="spacer"></div>
-                <!-- OBJ Viewer Section -->
-                <div id="obj-viewer-wrapper">
-                    <h3 class="obj-viewer-title">Hornbill Medium</h3>
-                    <div id="obj-viewer" aria-label="3D model viewer" role="img">
-                        <div class="obj-loading" id="objLoading">Loading Model...</div>
-                        <!-- Three.js renderer canvas will be injected here -->
+                
+                <!-- Widgets Container for better arrangement -->
+                <div class="widgets-container">
+                    <!-- OBJ Viewer Section -->
+                    <div id="obj-viewer-wrapper">
+                        <h3 class="obj-viewer-title">Hornbill Medium</h3>
+                        <div id="obj-viewer" aria-label="3D model viewer" role="img">
+                            <div class="obj-loading" id="objLoading">Loading Model...</div>
+                            <!-- Three.js renderer canvas will be injected here -->
+                        </div>
                     </div>
                 </div>
+                
                 <div class="hero-buttons">
-                    <a class="btn btn-primary" href="#hornbill-medium">View Model</a>
                     <a class="btn btn-secondary" href="mailto:contact@lulav.io">Contact</a>
                 </div>
             </div>
             <div class="hero-visual">
                 <div class="visualization-widget">
-                    <h3>SWARM C-UAS</h3>
+                    <h3>SWARM C-UAV</h3>
                     <div class="canvas-container">
                         <canvas id="interceptionCanvas"></canvas>
                     </div>
@@ -120,7 +124,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 LULAV SPACE LTD. All Rights Reserved.</p>
+                <p>&copy; 2025 LULAV LTD. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
