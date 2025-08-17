@@ -1,3 +1,34 @@
+// Typewriter effect for hero title
+function typeWriter() {
+    const text = "Lulav: Micro CUAS Systems"; // Updated text
+    const typewriterElement = document.getElementById('typewriter-text');
+    const cursor = document.querySelector('.cursor');
+    
+    if (!typewriterElement || !cursor) return;
+    
+    let i = 0;
+    
+    // Hide cursor during typing
+    cursor.style.opacity = '0';
+    
+    function type() {
+        if (i < text.length) {
+            typewriterElement.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, 120); // Typing speed (120ms per character)
+        } else {
+            // Show blinking cursor after typing is complete
+            cursor.style.opacity = '1';
+        }
+    }
+    
+    // Start typing after a brief delay
+    setTimeout(type, 500);
+}
+
+// Start typewriter effect when page loads
+document.addEventListener('DOMContentLoaded', typeWriter);
+
 // Interception Visualization JavaScript - Swarms vs Drones with Real Images
 
 class InterceptionVisualization {
@@ -1074,9 +1105,9 @@ function initOBJViewer() {
             
             try {
                 const loader = new THREE.OBJLoader();
-                console.log('OBJLoader created, loading assets/drone.obj...');
+                console.log('OBJLoader created, loading assets/hornbill_medium.obj...');
                 
-                loader.load('assets/models/drone.obj', 
+                loader.load('assets/models/hornbill_medium.obj', 
                     function (object) {
                         console.log('SUCCESS! Drone OBJ loaded:', object);
                         console.log('Object type:', typeof object);

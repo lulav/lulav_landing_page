@@ -1,3 +1,16 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Terminal cursor animation */
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -116,11 +129,40 @@ body {
 }
 
 .hero-title {
-    font-size: clamp(2.8rem, 6vw, 4rem);
+    font-size: clamp(0.4rem, 2.5vw, 1.5rem); /* Even smaller range to fit on one line */
     font-weight: 700;
     margin-bottom: 1.25rem;
     line-height: 1.1;
     letter-spacing: -0.5px;
+    
+    /* Linux Terminal Styling */
+    font-family: 'Courier New', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    background: #1a1a1a;
+    color: #00ff00;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    border: 1px solid #333;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+    position: relative;
+    overflow: hidden;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.terminal-prompt {
+    color: #00ff00;
+    opacity: 0.8;
+}
+
+.typewriter {
+    color: #00ff00;
+}
+
+.cursor {
+    animation: blink 1.5s infinite;
+    margin-left: 2px;
 }
 
 .highlight {
@@ -140,7 +182,7 @@ body {
 }
 
 .hero-subtitle {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     margin-bottom: 2.5rem;
     opacity: 0.9;
     line-height: 1.6;
@@ -425,7 +467,8 @@ body {
     }
     
     .hero-title {
-        font-size: 2.5rem;
+        font-size: 0.6rem; /* Smaller to fit on one line */
+        padding: 15px 20px; /* Smaller padding on mobile */
     }
     
     .hero-buttons {
@@ -525,12 +568,22 @@ html {
     max-width: 600px;
 }
 .obj-viewer-title {
-    font-size: 1rem;
+    font-size: clamp(0.3rem, 2vw, 1rem);
     letter-spacing: 1px;
     font-weight: 600;
-    color: #3b82f6;
     margin-bottom: .75rem;
     text-transform: uppercase;
+    
+    /* Linux Terminal Styling - same as hero-title */
+    font-family: 'Courier New', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    background: #1a1a1a;
+    color: #00ff00;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    border: 1px solid #333;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+    display: inline-block;
 }
 #obj-viewer {
     position: relative;
