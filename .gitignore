@@ -21,3 +21,4 @@ Thumbs.db
 *.temp 
 
 venv/
+build
