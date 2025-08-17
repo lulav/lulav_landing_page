@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LULAV defence - Drone Interception Visualization</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>LULAV defence    <!-- Three.js and STL Loader (must come before script.js so initSTLViewer sees THREE) -->
+    <script src="https://unpkg.com/three@0.152.2/build/three.min.js"></script>
+    <script type="module">
+        // Import STLLoader as ES6 module and make it global
+        import { STLLoader } from 'https://unpkg.com/three@0.152.2/examples/jsm/loaders/STLLoader.js';
+        window.STLLoader = STLLoader;
+    </script>Drone Interception Visualization</title>
+    <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
@@ -12,7 +18,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="logo.png" alt="LULAV" class="logo-img" width="120" height="40">
+                <img src="assets/images/logo.png" alt="LULAV" class="logo-img" width="120" height="40">
             </div>
             <ul class="nav-menu">
                 <li><a href="#home">Home</a></li>
@@ -33,11 +39,11 @@
                 <h1 class="hero-title">Micro Defence Systems</h1>
                 <p class="hero-tagline">Autonomous swarms transforming off‑the‑shelf drones into precise kinetic interceptors.</p>
                 <div class="spacer"></div>
-                <!-- STL Viewer Section -->
-                <div id="stl-viewer-wrapper">
-                    <h3 class="stl-viewer-title">Interceptor Assembly</h3>
-                    <div id="stl-viewer" aria-label="3D model viewer" role="img">
-                        <div class="stl-loading" id="stlLoading">Loading 3D model...</div>
+                <!-- OBJ Viewer Section -->
+                <div id="obj-viewer-wrapper">
+                    <h3 class="obj-viewer-title">Hornbill Medium</h3>
+                    <div id="obj-viewer" aria-label="3D model viewer" role="img">
+                        <div class="obj-loading" id="objLoading">Loading Model...</div>
                         <!-- Three.js renderer canvas will be injected here -->
                     </div>
                 </div>
@@ -164,9 +170,9 @@
         </div>
     </footer>
 
-    <!-- Three.js and STL Loader (must come before script.js so initSTLViewer sees THREE) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js" integrity="sha512-HkYw7DnNIJpAqJNLgBL/metL6ToN6mSQrgTQGJrBnXezcwr3E9CEiCNF5k1/bpbQQc/XVuZolFG8EoA9dvOAyQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/examples/js/loaders/STLLoader.min.js" integrity="sha512-nxHO0aBmnmH78gj4Y8PmljQdfvY3XdIv3t6seWbVfb7wdO638zymvUJJYV+dnv+URJHzsWyXs3id5SZak9Kyag==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="script.js"></script>
+    <!-- Three.js and OBJ Loader from jsDelivr -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.108.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.108.0/examples/js/loaders/OBJLoader.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html> 
