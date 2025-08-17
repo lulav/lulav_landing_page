@@ -15,9 +15,9 @@
                 <img src="logo.png" alt="LULAV" class="logo-img" width="120" height="40">
             </div>
             <ul class="nav-menu">
-                <!-- <li><a href="#home">Home</a></li> -->
-                <!-- <li><a href="#about">About</a></li> -->
-                <!-- <li><a href="#contact">Contact</a></li> -->
+                <li><a href="#home">Home</a></li>
+                <li><a href="#capabilities">Capabilities</a></li>
+                <li><a href="#contact" onclick="window.location.href='mailto:contact@lulav.io';return false;">Contact</a></li>
             </ul>
             <div class="hamburger">
                 <span></span>
@@ -30,13 +30,21 @@
     <section id="home" class="hero">
         <div class="hero-container">
             <div class="hero-content">
-                <h1 class="hero-title">Lulav</h1>
-                <h1 class="highlight">Micro Defence Systems</h1>
+                <h1 class="hero-title">Micro Defence Systems</h1>
+                <p class="hero-tagline">Autonomous swarms transforming off‑the‑shelf drones into precise kinetic interceptors.</p>
                 <div class="spacer"></div>
-                <!-- <div class="hero-buttons">
-                    <button class="btn btn-primary" onclick="scrollToSection('about')">Learn More</button>
-                    <button class="btn btn-secondary" onclick="scrollToSection('contact')">Get in Touch</button>
-                </div> -->
+                <!-- STL Viewer Section -->
+                <div id="stl-viewer-wrapper">
+                    <h3 class="stl-viewer-title">Interceptor Assembly</h3>
+                    <div id="stl-viewer" aria-label="3D model viewer" role="img">
+                        <div class="stl-loading" id="stlLoading">Loading 3D model...</div>
+                        <!-- Three.js renderer canvas will be injected here -->
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <a class="btn btn-primary" href="#capabilities">Explore</a>
+                    <a class="btn btn-secondary" href="mailto:contact@lulav.io">Contact</a>
+                </div>
             </div>
             <div class="hero-visual">
                 <div class="visualization-widget">
@@ -47,6 +55,41 @@
                     <div class="battle-status">
                         <span id="battleStatus">Initializing...</span>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="capabilities" class="capabilities-section">
+        <div class="capabilities-container">
+            <div class="capabilities-heading">
+                <h2>Capabilities</h2>
+                <p>Layered autonomous defense built for speed, scale, and cost efficiency.</p>
+            </div>
+            <div class="capability-grid">
+                <div class="capability-card">
+                    <h3>Swarm Intelligence</h3>
+                    <p>Coordinated multi‑drone tactics optimize intercept geometry and timing in real time.</p>
+                </div>
+                <div class="capability-card">
+                    <h3>Adaptive Targeting</h3>
+                    <p>Predictive guidance updates continuously against evasive low‑RCS threats.</p>
+                </div>
+                <div class="capability-card">
+                    <h3>Retrofit Kit</h3>
+                    <p>Turn COTS airframes into autonomous kinetic interceptors with minimal hardware changes.</p>
+                </div>
+                <div class="capability-card">
+                    <h3>Scalable Architecture</h3>
+                    <p>Distributed decision loop ensures graceful degradation and rapid node replacement.</p>
+                </div>
+                <div class="capability-card">
+                    <h3>Low Cost Per Kill</h3>
+                    <p>Commodity platforms + software‑defined autonomy reduce lifecycle and engagement costs.</p>
+                </div>
+                <div class="capability-card">
+                    <h3>High Throughput</h3>
+                    <p>Concurrent multi‑target resolution prevents saturation and delays in defense chains.</p>
                 </div>
             </div>
         </div>
@@ -121,6 +164,9 @@
         </div>
     </footer>
 
+    <!-- Three.js and STL Loader (must come before script.js so initSTLViewer sees THREE) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js" integrity="sha512-HkYw7DnNIJpAqJNLgBL/metL6ToN6mSQrgTQGJrBnXezcwr3E9CEiCNF5k1/bpbQQc/XVuZolFG8EoA9dvOAyQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/examples/js/loaders/STLLoader.min.js" integrity="sha512-nxHO0aBmnmH78gj4Y8PmljQdfvY3XdIv3t6seWbVfb7wdO638zymvUJJYV+dnv+URJHzsWyXs3id5SZak9Kyag==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="script.js"></script>
 </body>
 </html> 

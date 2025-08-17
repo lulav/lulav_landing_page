@@ -997,9 +997,174 @@ document.addEventListener('DOMContentLoaded', () => {
         el.style.transition = 'all 0.6s ease';
         observer.observe(el);
     });
+
+    // Initialize STL viewer if container exists
+    initSTLViewer();
 });
 
 // Export for global access
 window.InterceptionVisualization = InterceptionVisualization;
 window.scrollToSection = scrollToSection;
 window.handleContactForm = handleContactForm; 
+
+// 3D STL Viewer Implementation
+function initSTLViewer() {
+    const container = document.getElementById('stl-viewer');
+    if (!container) return;
+    if (!window.THREE) {
+        console.warn('Three.js not loaded before initSTLViewer.');
+        return;
+    }
+
+    const loadingEl = document.getElementById('stlLoading');
+
+    const scene = new THREE.Scene();
+    scene.background = null; // allow CSS background
+
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+    camera.position.set(2.5, 2.2, 3.2);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.shadowMap.enabled = true;
+    container.appendChild(renderer.domElement);
+
+    // Lights
+    const hemi = new THREE.HemisphereLight(0xffffff, 0x0f1629, 0.9);
+    scene.add(hemi);
+    const dir = new THREE.DirectionalLight(0xffffff, 0.9);
+    dir.position.set(5, 10, 7);
+    dir.castShadow = true;
+    scene.add(dir);
+    scene.add(new THREE.AmbientLight(0x406080, 0.4));
+
+    // Ground (subtle)
+    const groundGeo = new THREE.CircleGeometry(6, 64);
+    const groundMat = new THREE.MeshStandardMaterial({ color: 0x0d1b2e, metalness: 0.1, roughness: 0.9, transparent: true, opacity: 0.35 });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // Controls (minimal custom orbit)
+    const controls = new (function() {
+        this.isDragging = false;
+        this.prev = new THREE.Vector2();
+        this.rotation = new THREE.Euler();
+    })();
+
+    container.addEventListener('mousedown', e => {
+        controls.isDragging = true;
+        controls.prev.set(e.clientX, e.clientY);
+    });
+    window.addEventListener('mouseup', () => controls.isDragging = false);
+    window.addEventListener('mousemove', e => {
+        if (!controls.isDragging) return;
+        const dx = (e.clientX - controls.prev.x) * 0.005;
+        const dy = (e.clientY - controls.prev.y) * 0.005;
+        controls.prev.set(e.clientX, e.clientY);
+        modelGroup.rotation.y += dx;
+        modelGroup.rotation.x = Math.max(-Math.PI/2, Math.min(Math.PI/2, modelGroup.rotation.x + dy));
+    });
+    container.addEventListener('wheel', e => {
+        e.preventDefault();
+        const delta = Math.sign(e.deltaY) * 0.25;
+        camera.position.multiplyScalar(1 + delta * 0.1);
+    }, { passive: false });
+
+    // Model group
+    const modelGroup = new THREE.Group();
+    scene.add(modelGroup);
+
+    // Load STL with diagnostics & fallback
+    const loader = new THREE.STLLoader();
+    const primaryPath = 'ace_assembly.stl';
+    const fallbackPath = 'test_cube.stl';
+    console.time('stl-load-total');
+    loader.load(primaryPath, geometry => {
+        console.timeEnd('stl-load-total');
+        console.log(`[STL] Loaded primary: ${primaryPath}`, geometry);
+        try {
+            // Detect placeholder / empty geometry (very low vertex count)
+            const positionAttr = geometry.attributes?.position;
+            if (!positionAttr || positionAttr.count < 3) {
+                console.warn('[STL] Primary model empty – loading fallback cube STL');
+                loadFallback();
+            } else {
+                geometry.computeVertexNormals();
+                geometry.center();
+                geometry.computeBoundingBox();
+                const box = geometry.boundingBox;
+                const size = new THREE.Vector3();
+                box.getSize(size);
+                const targetMax = Math.max(size.x, size.y, size.z) || 1;
+                const scaleFactor = 1 / targetMax * 1.2; // normalize size
+                const material = new THREE.MeshPhysicalMaterial({
+                    color: 0x3b82f6,
+                    metalness: 0.4,
+                    roughness: 0.25,
+                    clearcoat: 0.6,
+                    clearcoatRoughness: 0.1,
+                    envMapIntensity: 0.9
+                });
+                const mesh = new THREE.Mesh(geometry, material);
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+                mesh.scale.setScalar(scaleFactor);
+                modelGroup.add(mesh);
+                modelGroup.rotation.x = 0.3;
+                modelGroup.rotation.y = -0.8;
+                if (loadingEl) loadingEl.remove();
+            }
+        } catch (e) {
+            console.error('[STL] Processing error', e);
+            if (loadingEl) loadingEl.textContent = 'Model processing error';
+        }
+    }, xhr => {
+        if (loadingEl && xhr.total) {
+            const pct = (xhr.loaded / xhr.total * 100).toFixed(0);
+            loadingEl.textContent = `Loading 3D model... ${pct}%`;
+        }
+    }, err => {
+        console.warn('[STL] Primary model failed, attempting fallback', err);
+        loadFallback();
+    });
+
+    function loadFallback() {
+        loader.load(fallbackPath, geo => {
+            console.log(`[STL] Loaded fallback: ${fallbackPath}`, geo);
+            geo.computeVertexNormals();
+            geo.center();
+            const mat = new THREE.MeshStandardMaterial({ color: 0x3b82f6, emissive: 0x0a2c55 });
+            const mesh = new THREE.Mesh(geo, mat);
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+            modelGroup.add(mesh);
+            modelGroup.rotation.x = 0.5;
+            modelGroup.rotation.y = 0.5;
+            if (loadingEl) loadingEl.textContent = 'Using fallback test cube (replace ace_assembly.stl)';
+        }, undefined, e => {
+            console.error('[STL] Fallback also failed', e);
+            if (loadingEl) loadingEl.textContent = 'Both model + fallback failed';
+        });
+    }
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+        modelGroup.rotation.y += 0.003; // slow auto-spin
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    // Resize handling
+    window.addEventListener('resize', () => {
+        if (!container) return;
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        renderer.setSize(w, h);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+    });
+}
