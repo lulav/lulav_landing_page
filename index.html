@@ -3,22 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LULAV defence - Drone Interception Visualization</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Lulav: Micro Defence Systems</title>
+    <link rel="stylesheet" href="css/styles.css?v=30">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="logo.png" alt="LULAV" class="logo-img" width="120" height="40">
+                <img src="assets/images/logo.png" alt="LULAV" class="logo-img" width="120" height="40">
             </div>
-            <ul class="nav-menu">
-                <!-- <li><a href="#home">Home</a></li> -->
-                <!-- <li><a href="#about">About</a></li> -->
-                <!-- <li><a href="#contact">Contact</a></li> -->
-            </ul>
+            <div class="nav-menu">
+                <a href="mailto:contact@lulav.io">Contact</a>
+            </div>
             <div class="hamburger">
                 <span></span>
                 <span></span>
@@ -30,17 +28,28 @@
     <section id="home" class="hero">
         <div class="hero-container">
             <div class="hero-content">
-                <h1 class="hero-title">Lulav</h1>
-                <h1 class="highlight">Micro Defence Systems</h1>
+                <h1 class="hero-title">
+                    <span class="terminal-prompt">$ </span>
+                    <span class="typewriter" id="typewriter-text"></span>
+                    <span class="cursor">_</span>
+                </h1>
                 <div class="spacer"></div>
-                <!-- <div class="hero-buttons">
-                    <button class="btn btn-primary" onclick="scrollToSection('about')">Learn More</button>
-                    <button class="btn btn-secondary" onclick="scrollToSection('contact')">Get in Touch</button>
-                </div> -->
+                
+                <!-- Widgets Container for better arrangement -->
+                <div class="widgets-container">
+                    <!-- OBJ Viewer Section -->
+                    <div id="obj-viewer-wrapper">
+                        <h3 class="obj-viewer-title">Hornbill Medium</h3>
+                        <div id="obj-viewer" aria-label="3D model viewer" role="img">
+                            <div class="obj-loading" id="objLoading">Loading Model...</div>
+                            <!-- Three.js renderer canvas will be injected here -->
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="hero-visual">
                 <div class="visualization-widget">
-                    <h3>SWARM C-UAS</h3>
+                    <h3>SWARM C-UAV</h3>
                     <div class="canvas-container">
                         <canvas id="interceptionCanvas"></canvas>
                     </div>
@@ -109,18 +118,19 @@
                 <div class="footer-section">
                     <!-- <h4>Connect</h4> -->
                     <div class="social-links">
-                        <p>contact@lulav.io</p>
-                        <!-- <a href="#" class="social-link">Twitter</a> -->
-                        <a href="#" class="social-link">LinkedIn</a>
+                        <!-- Contact email and LinkedIn removed -->
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 LULAV SPACE LTD. All Rights Reserved.</p>
+                <p>&copy; 2025 LULAV LTD. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Three.js and OBJ Loader from jsDelivr -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.108.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.108.0/examples/js/loaders/OBJLoader.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html> 

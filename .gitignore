@@ -20,5 +20,5 @@ Thumbs.db
 *.tmp
 *.temp 
 
-build/
-tex_build/
+venv/
+build
