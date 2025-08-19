@@ -116,18 +116,21 @@ body {
 }
 
 .hero-container {
-    max-width: 1200px;
-    margin: 0;
+    max-width: 1400px; /* Wider container to use more space */
+    margin: 0 auto;
     padding: 0 20px;
-    display: block; /* Changed from grid to block */
+    display: grid; /* Use grid for better layout */
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 3rem; /* Space between columns */
     width: 100%;
+    align-items: start;
 }
 
 .hero-content {
-    max-width: 600px; /* Limit content width */
+    max-width: none; /* Remove width restriction */
     margin-top: 0;
     margin-left: 0; /* Align to left instead of center */
-    margin-right: auto; /* Keep right margin auto */
+    margin-right: 0; 
     text-align: left; /* Left align text */
 }
 
@@ -255,11 +258,11 @@ body {
 }
 
 .hero-visual {
-    position: absolute;
-    bottom: 100px;
-    right: 20px;
-    width: 900px; /* Reduced by 0.75x from 1200px */
-    height: 750px; /* Reduced by 0.75x from 1000px */
+    position: relative; /* Remove absolute positioning */
+    bottom: auto;
+    right: auto;
+    width: 100%; /* Full width of grid column */
+    height: 750px; /* Keep same height */
 }
 
 .visualization-widget {
@@ -490,9 +493,10 @@ body {
     }
     
     .hero-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Single column on mobile */
         text-align: center;
         gap: 2rem;
+        max-width: 100%;
     }
     
     .hero-title {
@@ -523,6 +527,15 @@ body {
         width: 100%;
         height: 375px; /* Reduced by 0.75x from 500px */
         margin-top: 2rem;
+    }
+    
+    #obj-viewer-wrapper { 
+        max-width: 100%; 
+    }
+    #obj-viewer { 
+        height: 400px; /* Reasonable mobile height */
+        padding: 3px; /* Minimal mobile padding */
+        width: 100%; /* Normal width on mobile */
     }
     
     .features {
@@ -607,7 +620,7 @@ html {
     border: 2px solid #333; /* Terminal border */
     border-radius: 8px;
     padding: 1rem 1rem 2rem; /* Reduced padding to match animation widget */
-    max-width: 1200px; /* Increased width for better aspect ratio */
+    max-width: none; /* Remove width restriction to fill column */
     box-shadow: 0 0 20px rgba(0, 255, 0, 0.2); /* Terminal green glow */
     overflow: hidden; /* Hide the overflow from the 200% width viewer */
 }
@@ -632,39 +645,37 @@ html {
 }
 #obj-viewer {
     position: relative;
-    width: 200%;
-    height: 300px; /* Much shorter height for proper wide aspect ratio */
+    width: 100%; /* Reset to normal width */
+    height: 700px; /* Keep tall height */
     border-radius: 4px;
-    overflow: hidden;
+    overflow: hidden; /* Back to hidden to contain within widget */
     background: #000000; /* Pure terminal black background */
     border: 1px solid #444; /* Terminal inner border */
     box-shadow: 
         inset 0 0 10px rgba(0, 255, 0, 0.1), /* Inner green glow */
         0 2px 8px rgba(0, 0, 0, 0.8); /* Terminal depth shadow */
-}
-#obj-viewer canvas { display: block; outline: none; }
-.obj-loading {
-    position: absolute;
-    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #00ff00; /* Terminal green text */
-    font-size: .9rem;
-    font-weight: 500;
-    font-family: 'Courier New', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace; /* Terminal font */
-    background: #000000; /* Terminal black background */
-    animation: pulseFade 1.8s ease-in-out infinite;
-    text-shadow: 0 0 5px rgba(0, 255, 0, 0.8); /* Terminal text glow */
+    padding: 5px; /* Much smaller padding for better fit */
 }
-@keyframes pulseFade {
-    0%,100% { opacity: .9; }
-    50% { opacity: .4; }
+.hornbill-image {
+    max-width: 98%; /* Almost fill the entire width */
+    max-height: 98%; /* Almost fill the entire height */
+    width: auto;
+    height: auto;
+    object-fit: contain; /* Show the entire image without cropping */
+    object-position: center center; /* Center both horizontally and vertically */
+    filter: brightness(1.1) contrast(1.1); /* Slightly enhance the image */
 }
 
 @media (max-width: 768px) {
     #obj-viewer-wrapper { max-width: 100%; }
-    #obj-viewer { height: 200px; } /* Short height for mobile too */
+    #obj-viewer { 
+        height: 400px; /* Reasonable mobile height */
+        padding: 3px; /* Minimal mobile padding */
+        width: 100%; /* Normal width on mobile */
+    }
 }
 
 /* Capabilities Section */
