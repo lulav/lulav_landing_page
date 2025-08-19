@@ -1030,7 +1030,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Initialize OBJ viewer if container exists
-    initOBJViewer();
+    // initOBJViewer(); // Commented out - now using static image instead
 });
 
 // Export for global access
