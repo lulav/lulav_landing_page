@@ -1185,7 +1185,7 @@ function initOBJViewer() {
                         // Update the title
                         const title = document.querySelector('.obj-viewer-title');
                         if (title) {
-                            title.textContent = 'Hornbill Medium';
+                            title.textContent = 'Hornbill Kinetic';
                         }
                         
                         // Hide loading message
@@ -1210,7 +1210,7 @@ function initOBJViewer() {
                         // Keep the loading indicator if OBJ fails to load
                         const title = document.querySelector('.obj-viewer-title');
                         if (title) {
-                            title.textContent = 'Hornbill Medium (Loading...)';
+                            title.textContent = 'Hornbill Kinetic (Loading...)';
                         }
                     }
                 );
